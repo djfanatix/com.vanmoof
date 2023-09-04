@@ -1,2 +1,3 @@
-# com.vanmoof
- Vanmoof for Homey
+# VanMoof
+
+Add support for VanMoof Bicycle's

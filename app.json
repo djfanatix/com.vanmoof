@@ -1,0 +1,180 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.vanmoof",
+  "version": "1.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "name": {
+    "en": "VanMoof"
+  },
+  "description": {
+    "en": "Add support for VanMoof Bicycle's"
+  },
+  "category": [
+    "security"
+  ],
+  "permissions": [
+    "homey:wireless:ble"
+  ],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Pieter.verougstraete@gmail.com",
+    "email": "pieter.verougstraete@gmail.com"
+  },
+  "capabilities": {
+    "measure_module": {
+      "type": "number",
+      "getable": true,
+      "setable": false,
+      "units": { "en": "%" },
+      "min": 0,
+      "max": 100,
+      "icon": "/assets/battery.svg",
+      "title": {
+        "en": "Battery module",
+        "nl": "Battery module"
+        
+      }
+    },
+    "lockstate": {
+      "type": "string",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/lock.svg",
+      "title": {
+        "en": "Lock state",
+        "nl": "Lock state"
+        
+      }
+    },
+    "region": {
+      "type": "string",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/region.svg",
+      "title": {
+        "en": "Region",
+        "nl": "Region"
+        
+      }
+    },
+    "lights": {
+      "type": "string",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/lights.svg",
+      "title": {
+        "en": "Lights",
+        "nl": "Lights"
+        
+      }
+    },
+    "powerlevel": {
+      "type": "number",
+      "getable": true,
+      "setable": false,
+      "min": 0,
+      "max": 5,
+      "icon": "/assets/power.svg",
+      "title": {
+        "en": "Power Level",
+        "nl": "Power level"
+        
+      }
+    },
+    "error": {
+      "type": "number",
+      "getable": true,
+      "setable": false,
+      "min": 0,
+      "max": 100,
+      "icon": "/assets/error.svg",
+      "title": {
+        "en": "Error code",
+        "nl": "Error code"
+        
+      }
+    },
+    "modulestate": {
+      "type": "string",
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/module.svg",
+      "title": {
+        "en": "Module state",
+        "nl": "Module state"
+        
+      }
+    },
+    "distance": {
+      "type": "number",
+      "getable": true,
+      "setable": false,
+      "units": { "en": "km" },
+      "min": 0,
+      "max": 100000,
+      "icon": "/assets/distance.svg",
+      "title": {
+        "en": "Distance",
+        "nl": "Distance"
+        
+      }
+    }
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "Bike"
+      },
+      "class": "homealarm",
+      "capabilities": [
+        "measure_battery",
+        "measure_module",
+        "distance",
+        "lockstate",
+        "modulestate",
+        "lights",
+        "powerlevel",
+        "region",
+        "error"
+
+      ],
+      "connectivity": [
+        "ble",
+        "cloud"
+      ],
+      "images": {
+        "small": "/drivers/bike/assets/images/small.png",
+        "large": "/drivers/bike/assets/images/large.png",
+        "xlarge": "/drivers/bike/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "bike",
+      "settings": [
+        {
+          "id": "deviceId",
+          "type": "label",
+          "label": {
+            "en": "Device ID"
+          }
+        }
+      ]
+    }
+  ]
+}

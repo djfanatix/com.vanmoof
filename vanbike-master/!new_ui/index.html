@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/bulma.min.css">
+        <link rel="stylesheet" href="css/modal-fx.min.css" />
+        <title>CMoof</title>
+    </head>
+    <body>
+        <section class="section">
+            <div class="container">
+                <!-- Header / Info -->
+                <h1 class="title">
+                    CMoof
+                </h1>
+                <p class="subtitle">
+                    Login with your Vanmoof account.
+                </p>
+                <div class="columns is-mobile">
+                    <div class="column">
+                        <button class="button is-small modal-button is-fullwidth" data-target="#moreInfo" aria-haspopup="true">More Info</button>
+                    </div>
+                    <div class="column">
+                        <button class="button is-small modal-button is-fullwidth" data-target="#compatibility" aria-haspopup="true">Compatibility</button>
+                    </div>
+                </div>
+
+                <!-- Modal Choose Bike -->
+                <div class="modal modal-fx-fadeInScale modal-full-screen" id="chooseBike">
+                    <div class="modal-content modal-card">
+                        <section class="modal-card-body">
+                            <h4 class="title is-4">Choose Your Bike</h4>
+                                <div id="bike0" class="card">
+                                    <div class="card-header">
+                                        <p class="card-header-title">
+                                            {bike.name} - {bike.model}
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="button card-footer-item">Select Bike</button>
+                                    </div>
+                                </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- Modal (More Info) -->
+                <div class="modal modal-fx-fadeInScale" id="moreInfo">
+                    <div class="modal-background"></div>
+                    <div class="modal-content">
+                        <div class="box">
+                            CMoof uses <strong>cookies</strong> to store your encryption key and bike model. Your Vanmoof login data <strong>doesn't</strong> get stored on our 
+                            servers, but gets sent directly to the Vanmoof API to retrieve your bike encryption key.
+                            <hr>
+                            This is a UI for <a href="https://github.com/Poket-Jony/vanbike-lib" target="_blank">Vanbike-Lib</a> by <a href="https://github.com/Poket-Jony" target="_blank">Poket-Jony</a>
+                        </div>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close"></button>
+                </div>
+                <!-- Modal (Compatibility) -->
+                <div class="modal modal-fx-fadeInScale modal-full-screen" id="compatibility">
+                    <div class="modal-content modal-card">
+                        <section class="modal-card-body">
+                            <button class="modal-button-close delete is-pulled-right" aria-label="close"></button>
+                            <h4 class="title is-4">Compatibility</h4>
+                            <p>CMoof uses the <a href="https://github.com/Poket-Jony/vanbike-lib" target="_blank">VanBike-Lib</a> library to connect and control your bike. 
+                                Bike compatibility will update as vanbike-lib gets updated.</p>
+                            <br>
+
+                            <!-- Bike Compatibility -->
+                            <p><strong>Bike compatibility:</strong></p>
+                            <table class="table is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th>Bike Model</th>
+                                        <th>Compatibility</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Electrified S/X 1 (2016/2017)</th>
+                                        <td>&#10003; Tested</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Smart S/X 1 (2018)</th>
+                                        <td>&#9888; Unsupported (WIP)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Electrified S/X 2</th>
+                                        <td>&#9888; Unsupported (Some Functions Missing)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Electrified S/X 3</th>
+                                        <td>&#9888; Unsupported (WIP)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Browser Compatibility -->
+                            <p><strong>Browser Compatibility</strong> can be found at the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API#browser_compatibility" target="_blank">MDN Web Docs > Web Bluetooth API</a></p>
+                        </section>
+                    </div>
+                </div>
+                <hr>
+
+                <div id="error_notification" class="notification is-danger is-hidden">
+                    <button class="delete"></button>
+                    <strong>Error!</strong> Invalid credentials or server issue.
+                </div>
+
+                <!-- Login Form -->
+                <form>
+                    <!-- Email -->
+                    <div class="field">
+                        <label class="label">Account Email</label>
+                        <div class="control">
+                            <input class="input is-medium" id="email_input" type="email" placeholder="Email Address">
+                        </div>
+                        <p id="email_help" class="help is-danger"></p>
+                    </div>
+                    <!-- Password -->
+                    <div class="field">
+                        <label class="label">Account Password</label>
+                        <div class="control">
+                            <input class="input is-medium is" id="password_input" type="password" placeholder="Password">
+                        </div>
+                        <p id="password_help" class="help is-danger"></p>
+                    </div>
+                    <!-- Submit Button -->
+                    <button class="button is-medium is-primary is-fullwidth" id="login" type="button">Sign In</button>
+                </form>
+            </div>
+        </section>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/vanbike-lib.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/ui.js"></script>
+        <script type="text/javascript" src="js/modal-fx.min.js"></script>
+        <script type="text/javascript" src="js/loginpage.js"></script>
+    </body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/bulma.min.css">
+        <link rel="stylesheet" href="css/modal-fx.min.css" />
+        <title>CMoof - Bike Control</title>
+    </head>
+    <body>
+        <section class="section">
+            <div class="container">
+                <!-- Header / Info -->
+                <h1 id="bikeName" class="title">
+                    {bike.name}
+                </h1>
+                <p id="bikeModel" class="subtitle">
+                    {bike.model}
+                </p>
+                <!-- Unlock Bike -->
+                <button id="unlock" class="button is-primary is-rounded is-fullwidth"><span class="icon"><i id="unlock-icon" class="fas fa-lock"></i></span><span id="unlock-text">Unlock Bike</span></button>
+                <br>
+
+                <!-- Battery bar (change color based on charge amount) -->
+                <p><strong>Battery: </strong><span id="bikeBatteryLevel">unknown</span></p>
+                <progress class="progress is-dark" max="100"></progress>
+
+                <!-- Bike Info & Speedometer page -->
+                <center>
+                    <div class="columns is-mobile">
+                        <div class="column">
+                            <button class="button is-small modal-button" data-target="#bikeInfo" aria-haspopup="true">Show Detailed Bike Info</button>
+                        </div>
+                        <div class="column">
+                            <button class="button is-small modal-button" data-target="#speedometer" aria-haspopup="true">Show Speedometer</button>
+                        </div>
+                    </div>
+                </center>
+
+                <!-- Modal (Detailed Bike Info) -->
+                <div class="modal modal-fx-fadeInScale modal-full-screen" id="bikeInfo">
+                    <div class="modal-content modal-card">
+                        <section class="modal-card-body">
+                            <button class="modal-button-close delete is-pulled-right" aria-label="close"></button>
+                            <h4 class="title is-4">Detailed Bike Info</h4>
+
+                            <p><strong>Distance Driven: </strong><span id="distance" class="tag is-primary">unknown</span></p>
+                            <br>
+                            <p><strong>Module Battery: </strong><span id="moduleBatteryLevel">unknown</span></p>
+                            <progress class="progress is-dark" max="100"></progress>
+
+                            <h5 class="title is-5">Firmware/Hardware Info</h5>
+                            <table class="table is-fullwidth">
+                                <tbody>
+                                    <tr>
+                                        <th>Hardware:</th>
+                                        <td><span id="hardware">unknown</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Model Number:</th>
+                                        <td><span id="modelNumber">unknown</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Firmware:</th>
+                                        <td><span id="firmware">unknown</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Software:</th>
+                                        <td><span id="software">unknown</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h5 class="title is-5">Bike State</h5>
+                            <table class="table is-fullwidth">
+                                <tbody>
+                                    <tr>
+                                        <th>Module State:</th>
+                                        <td><span id="moduleState">unknown</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Error Code:</th>
+                                        <td><span id="errorCode">unknown</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Run Mode:</th>
+                                        <td><span id="runMode">unknown</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tracking State:</th>
+                                        <td><span id="trackingState">unknown</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sleep State:</th>
+                                        <td><span id="sleepState">unknown</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Alarm State:</th>
+                                        <td><span id="alarmState">unknown</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    </div>
+                </div>
+                <!-- Modal (Speedometer) -->
+                <div class="modal modal-fx-fadeInScale modal-full-screen" id="speedometer">
+                    <div class="modal-content modal-card">
+                        <section class="modal-card-body">
+                            <button class="modal-button-close delete is-pulled-right" aria-label="close"></button>
+                            <h4 class="title is-4">Speedometer</h4>
+                        </section>
+                    </div>
+                </div>
+                <!-- Modal (Connecting) -->
+                <div class="modal modal-fx-fadeInScale modal-full-screen is-active" id="connecting">
+                    <div class="modal-content modal-card">
+                        <section class="modal-card-body">
+                            <br><br><br>
+                            <div id="error_notification" class="notification is-danger is-hidden">
+                                <button class="delete"></button>
+                                <strong>Error!</strong> Could not connect.
+                            </div>
+                            <h4 class="title is-4">Connect to your Bike</h4>
+                            <button id="connectButton" class="button is-primary is-fullwidth">Connect</button>
+                            <br>
+                            <button id="clearButton" class="button is-small is-fullwidth">Clear Cookies & Log Out</button>
+                        </section>
+                    </div>
+                </div>
+                <hr>
+
+                <!-- Bike Settings -->
+                <h5 class="title is-5">Settings</h5>
+                <center>
+                    <br>
+                    <!-- Assist Power Level-->
+                    <p class="subtitle is-6">&#11015; Assist Power Level &#11015;</p>
+                    <div class="columns is-mobile is-gapless">
+                        <!-- Power Level 0 -->
+                        <div class="column">
+                            <button class="button is-rounded">0</button>
+                        </div>
+                        <!-- Power Level 1 -->
+                        <div class="column">
+                            <button class="button is-rounded">1</button>
+                        </div>
+                        <!-- Power Level 2 -->
+                        <div class="column">
+                            <button class="button is-rounded">2</button>
+                        </div>
+                        <!-- Power Level 3 -->
+                        <div class="column">
+                            <button class="button is-rounded is-primary is-active">3</button>
+                        </div>
+                        <!-- Power Level 4 -->
+                        <div class="column">
+                            <button class="button is-rounded">4</button>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <!-- Lighting -->
+                    <p class="subtitle is-6">&#11015; Lighting Setting &#11015;</p>
+                    <div class="select is-rounded is-fullwidth">
+                        <select>
+                            <option>Always Off</option>
+                            <option>Automatic</option>
+                            <option>Always On</option>
+                            <option>Rear Flash</option>
+                            <option>Rear Flash Stopped</option>
+                        </select>
+                    </div>
+                    <hr>
+
+                    <!-- Region Setting -->
+                    <p class="subtitle is-6">&#11015; Region Setting &#11015;</p>
+                    <div class="columns is-mobile is-gapless">
+                        <!-- Japan -->
+                        <div class="column">
+                            <button class="button is-rounded">&#127471;&#127477;</button>
+                        </div>
+                        <!-- Europe -->
+                        <div class="column">
+                            <button class="button is-rounded">&#127466;&#127482;</button>
+                        </div>
+                        <!-- United States -->
+                        <div class="column">
+                            <button class="button is-rounded">&#127482;&#127480;</button>
+                        </div>
+                        <!-- Secret mode -->
+                        <div class="column">
+                            <button class="button is-rounded is-primary is-active">&#127937;</button>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <!-- Units -->
+                    <p class="subtitle is-6">&#11015; Units &#11015;</p>
+                    <div class="select is-rounded is-fullwidth">
+                        <select>
+                            <option>Metric (Km/h)</option>
+                            <option>Imperial (M/h)</option>
+                        </select>
+                    </div>
+                </center>
+            </div>
+        </section>
+        <script src="https://kit.fontawesome.com/da2b8838eb.js" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/vanbike-lib.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/ui.js"></script>
+        <script type="text/javascript" src="js/modal-fx.min.js"></script>
+        <script type="text/javascript" src="js/mainpage.js"></script>
+    </body>
+</html>

@@ -5,17 +5,16 @@ import { log } from 'console';
 export default class vanmoofbike {
     bikeProfile
     cryptService
-    userKeyId
     encryptionKey
     logger
 
 
-    constructor(bikeProfile: string, encryptionKey: string, userKeyId: number) {
+    constructor(bikeProfile: string, encryptionKey: string) {
         this.bikeProfile = bikeProfile
         this.cryptService = new vanmoofcrypto(
             encryptionKey
         )
-        this.userKeyId = userKeyId
+        //this.userKeyId = userKeyId not for S1
         //console.log('userKeyId', userKeyId)
         this.encryptionKey = encryptionKey
         //const passcode = this.cryptService.getPasscode()

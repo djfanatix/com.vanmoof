@@ -80,7 +80,7 @@ export default class vanMoofWeb {
                 throw Error("Invalid credentials, check login and password in settings.");
             }
     
-            console.log('bikeDetails', bikeDetails);
+            console.log('bikeDetails', bikeDetails.data.bikeDetails);
             return bikeDetails;
         } catch (error) {
             throw Error("Invalid credentials, check login and password in settings.");

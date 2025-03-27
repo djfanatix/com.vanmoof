@@ -6,36 +6,62 @@ const setTimeoutPromise = util.promisify(setTimeout);
 
 
 class vanMoof extends Device {
+  private vanmoofBikeInstance: any; // Store vanmoofbike instance
+  private intervalId: any; // Store interval ID
   /**
    * onInit is called when the device is initialized.
    */
-  async onInit () {
+  async onInit() {
+    this.log('Vanmoof Bike has been initialized');
+    const store = this.getStore();
 
-    this.log('Vanmoof Bike has been initialized')
-    const store = this.getStore()
-    const bike = new vanmoofbike('S1', store.encryptionKey, store.userKeyId)
-    const settingsinterval = this.homey.settings.get('interval');
-    this.log('intervalsettings',settingsinterval)
+    if (!store || !store.encryptionKey) {
+      this.error("Missing store properties, user key id");
+      return;
+    }
+
+    this.vanmoofBikeInstance = new vanmoofbike('S1', store.encryptionKey);
+
+    let settingsinterval = this.homey.settings.get('interval');
+
+    if (!settingsinterval || typeof settingsinterval !== 'number' || settingsinterval <= 0) {
+      this.log('Invalid interval setting, using default 15 minutes.');
+      settingsinterval = 15; // Default interval (15 minutes)
+    }
+
     const scan_interval = settingsinterval * 60 * 1000; // x minutes
-    this.log('interval',scan_interval)
-    
-    this.homey.setInterval(async () => {
-      await this.scan();
-  }, scan_interval);
-    
-    this.scan()
+
+    this.log('interval', scan_interval);
+
+    try {
+      this.intervalId = this.homey.setInterval(async () => {
+        await this.scan();
+      }, scan_interval);
+    } catch (error) {
+      this.error("error setting interval", error);
+    }
+
+    this.scan(); // Initial scan
   }
 
 
-   
-
+  
     // Get the Device ID
-    //const deviceId = this.homey.settings.get('deviceId');
+   
     async scan() {
 
-    const deviceId = '546c0ef97176';
+    const deviceId = this.homey.settings.get('deviceId');
     const store = this.getStore()
-    const bike = new vanmoofbike('S1', store.encryptionKey, store.userKeyId)
+    const bike = new vanmoofbike('S1', store.encryptionKey)
+
+    // Check if the deviceid is known (This is not the same as we get from Vanmoof)
+    const knownDeviceId = await this.detirminDeviceId()
+    if (!knownDeviceId) {
+      this.setUnavailable('Cannot find device ID of the bike, bring closer to Homey and try again')
+    } else {
+      // Get the Device ID
+      const deviceId = this.getStoreValue("deviceId");
+    }
 
     // Attempt a connection
     this.log(`Trying to connect to bike with ID ${deviceId}`)
@@ -248,8 +274,14 @@ class vanMoof extends Device {
    * onDeleted is called when the user deleted the device.
    */
   async onDeleted() {
-    this.log('Vanmoof Bike has been deleted');
-  }
+    this.log('Vanmoof has been deleted');
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+}
 }
 
 module.exports = vanMoof;
+
+

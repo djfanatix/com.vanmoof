@@ -86,32 +86,44 @@
 
 
 
-    async onPairListDevices () {
-      this.log('Onpairlistdevices')
-      const apiKey = this.homey.settings.get('apiKey');
-      const authToken = this.homey.settings.get('authToken');
-      const bikes = await this.vanmoofweb.getBikesDetails(authToken, apiKey);
-      const devicesToPresent = [];
-
-      for (const bike of bikes.data.bikeDetails) {
-        devicesToPresent.push({
-          name: bike.name,
-          data: {
-            id: bike.id,
-            name: bike.name,
-            frameNumber: bike.frameNumber,
-            uuid: bike.macAddress.replaceAll(":", "").toLowerCase(),
-          },
-          store: {
-            encryptionKey: bike.key.encryptionKey,
-            passcode: bike.key.passcode,
-            userKeyId: bike.key.userKeyId,
-            bikeType: bike.modelDetails.Edition,
+    async onPairListDevices() {
+      this.log('Onpairlistdevices');
+      const apiKey = 'fcb38d47-f14b-30cf-843b-26283f6a5819';
+      try {
+        const bikes = await this.vanmoofweb.getBikesDetails('', apiKey);
+        const devicesToPresent = [];
+  
+        for (const bike of bikes.data.bikeDetails) {
+          if (
+            bike.bleProfile === 'ELECTRIFIED_2017' ||
+            bike.bleProfile === 'ELECTRIFIED_2016'
+          ) {
+            devicesToPresent.push({
+              name: bike.name,
+              data: {
+                id: bike.id,
+                name: bike.name,
+                frameNumber: bike.frameNumber,
+                uuid: bike.macAddress.replaceAll(':', '').toLowerCase(),
+              },
+              store: {
+                encryptionKey: bike.key.encryptionKey,
+                passcode: bike.key.passcode,
+                bikeType: bike.modelDetails.Edition,
+              },
+            });
+          } else {
+            this.log(
+              `Skipping bike ${bike.name} with bleProfile: ${bike.bleProfile}`
+            );
           }
-        })
+        }
+  
+        return devicesToPresent;
+      } catch (error) {
+        this.error('Error getting bikes details:', error);
+        return [];
       }
-
-      return devicesToPresent;
     }
   }
 

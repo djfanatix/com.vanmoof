@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+  </head>
+  <body>
+    <h1 data-i18n="settings.title"></h1>
+    <p data-i18n="settings.subtitle"></p>
+
+    <fieldset>
+      <legend>My Settings</legend>
+      <legend>Manual restart the app afterwards!</legend>
+
+      <div class="field row">
+        <label for="username">Username</label>
+        <input id="username" type="text" />
+      </div>
+      <div class="field row">
+        <label for="password">Password</label>
+        <input id="password" type="password" />
+      </div>
+    </fieldset>
+
+    <button id="save" class="right">Save changes</button>
+
+    <script type="text/javascript">
+      function onHomeyReady(Homey) {
+        Homey.ready();
+
+        const usernameElement = document.getElementById("username");
+        const passwordElement = document.getElementById("password");
+        const saveElement = document.getElementById("save");
+
+        // Load settings from Homey
+        Homey.get("username", function (err, username) {
+          if (!err && username) usernameElement.value = username;
+        });
+
+        Homey.get("password", function (err, password) {
+          if (!err && password) passwordElement.value = password;
+        });
+
+        saveElement.addEventListener("click", function () {
+          const username = usernameElement.value;
+          const password = passwordElement.value;
+
+          Homey.set("username", username, function (err) {
+            if (err) return Homey.alert("Error saving username!");
+          });
+
+          Homey.set("password", password, function (err) {
+            if (err) return Homey.alert("Error saving password!");
+            Homey.alert("Settings saved, please manually restart the app before adding your bike!");
+          });
+        });
+       
+      }
+    </script>
+  </body>
+</html>

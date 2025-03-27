@@ -1,0 +1,10 @@
+{
+  "extends": "@tsconfig/node12/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "build/",
+    "sourceMap": true,
+    "lib": [
+          "ES2021.String"
+    ]
+  }
+}
